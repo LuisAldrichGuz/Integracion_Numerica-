@@ -1,0 +1,290 @@
+#include <iostream>
+#include <math.h>
+#include <conio.h> 
+#include <windows.h>
+
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_BLUE    "\x1b[34m" //ESTO DEFINE LOS VALORES DE LOS COLORES PARA IMPRIMIR.
+#define ANSI_COLOR_CYAN    "\x1b[36m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
+
+void titulo(); //IMPRIME EL TITULO
+void inicio();//MENU PRINCIPAL
+void logo();
+
+using namespace std;
+int main(int argc, char** argv) //USO EL MAIN PARA SOLO LLAMAR AL MENU 
+{
+	system("color 02");
+	inicio();
+}
+// AQUI TENGO EL MENU PRINCIPAL
+void inicio()
+{
+	float a, b, fa, fb,y1a,y1b,y2a,y2b,i,h;
+	int n, j=1,m,opc,aux;
+	char op;
+	again:
+	titulo();
+	do
+	{
+		printf("\n\n\n\t Ingrese el valor inicial  [A]: ");
+		scanf("%f",&a);
+		printf("\n\n\n\t Ingrese el valor final [A]: ");
+		scanf("%f",&b);
+		y2a=2.0*a*a*a-1.0;
+		y2b=2.0*b*b*b-1.0;
+		if(y2a==0)
+		{
+			system("cls");
+			titulo();
+			printf(ANSI_COLOR_RED"\n\n\t Funci%cn definida para X= %f"ANSI_COLOR_GREEN,149,a);
+		}
+		
+		if(a>b)
+		{
+			system("cls");
+			titulo();
+			printf(ANSI_COLOR_RED"\n\n\t El valor de [A] no puede ser mayor a [B] "ANSI_COLOR_GREEN);
+		}	
+	}while(a>b);
+	
+	do{
+		printf("\n\n\t Ingresa el n%cmero de Iteraciones:  ",163);
+		scanf("%i",&n);
+		
+	}while(n<10);
+	
+	do{
+		printf("\n\n\t Ingresa el n%cmero de derivadas:   ",163);
+		scanf("%i",&m);
+		
+	}while(m>6);
+	
+	float Vx[n], Vy[n],Yp[n],Ypp[n],Yppp[n],Yp4[n],Yp5[n],Yp6[n];
+	
+	h=(b-a)/(n-1);//OBTENEMOS EL VALOR DE LOS SALTOS 
+	
+
+	for(i=a; i<=b; i=i+h){
+		Vx[j]=i;
+		Vy[j]=((2.0*i*i*i-4.0)*(cos(3.0*i*i))*(cos(3.0*i*i)))/(pow(2.0*i*i*i-1.0,(1.0/4.0)));
+		j++;	//OBTENEMOS LOS VALORES LA FUNCION, EVALUANDO EN "I"
+	}
+
+	for(j=1;j<=n-1;j++){
+		Yp[j]=(Vy[j+1]-Vy[j])/(h); //Primera derivaba en Y
+		
+	}
+	// y biprima
+	for(j=1;j<=n-2;j++){
+		Ypp[j]=(Yp[j+1]-Yp[j])/(h); //Segunda derivaba en Y
+	
+	//y triprima	
+	}
+	for(j=1;j<=n-3;j++){
+		Yppp[j]=(Ypp[j+1]-Ypp[j])/(h); //Tercera derivaba en Y
+		
+	}
+//y4
+	for(j=1;j<=n-4;j++){
+		Yp4[j]=(Yppp[j+1]-Yppp[j])/(h); //Cuarta derivaba en Y
+	
+	}
+	for(j=1;j<=n-5;j++){
+		Yp5[j]=(Yp4[j+1]-Yp4[j])/(h); //Quinta derivaba en Y
+	
+	}
+	for(j=1;j<=n-6;j++){
+		Yp6[j]=(Yp5[j+1]-Yp5[j])/(h); //Sexta derivaba en Y
+		
+	}
+	
+	system("cls");
+	titulo();
+	switch(m)//DEPENDIENDO EL NUMERO DE DERIVADAS DADAS SE IMPRIME UNA TABLA DE CIETA MANERA.
+	{
+		case 1:
+			printf("\n\tIter.\t    x\t        y\t          y'\n");
+			
+			for(aux=0; aux<=105; aux++)
+			{	
+				printf("%c",205);
+			}
+			
+			
+			for(j=1; j<=n; j++)
+			{
+			printf("\n\t%i\t%0.7f\t%0.7f\t%0.7f\n",j,Vx[j],Vy[j],Yp[j]);	
+			}
+			break;
+		case 2:
+			printf("\n\tIter.\t    x\t        y\t          y'\t        y''\t\n");
+			
+			for(aux=0; aux<=105; aux++)
+			{	
+				printf("%c",205);
+			}
+			
+			for(j=1; j<=n; j++){
+			printf("\n\t%i\t%0.7f\t%0.7f\t%0.7f\t%0.7f\n",j,Vx[j],Vy[j],Yp[j],Ypp[j]);	
+			}
+			
+			break;
+		case 3:
+			printf("\n\tIter.\t    x\t        y\t          y'\t        y''\t         y'''\t\n");
+			
+			for(aux=0; aux<=105; aux++)
+			{	
+				printf("%c",205);
+			}
+			
+			for(j=1; j<=n; j++){
+			printf("\n\t%i\t%0.7f\t%0.7f\t%0.7f\t%0.7f\t%0.7f\n",j,Vx[j],Vy[j],Yp[j],Ypp[j],Yppp[j]);	
+			}
+			
+			break;
+		case 4:
+			printf("\n\tIter.\t    x\t        y\t          y'\t        y''\t         y'''\t         y(4)\t\n");
+			
+			for(aux=0; aux<=105; aux++)
+			{	
+				printf("%c",205);
+			}
+			
+			for(j=1; j<=n; j++){
+			printf("\n\t%i\t%0.7f\t%0.7f\t%0.7f\t%0.7f\t%0.7f\t%0.7f\n",j,Vx[j],Vy[j],Yp[j],Ypp[j],Yppp[j],Yp4[j]);	
+			}
+			break;
+		case 5:
+			printf("\n\tIter.\t    x\t        y\t          y'\t        y''\t         y'''\t         y(4)\t        y(5)\t\n");
+			
+			for(aux=0; aux<=105; aux++)
+			{	
+				printf("%c",205);
+			}
+			
+			for(j=1; j<=n; j++){
+			printf("\n\t%i\t%0.7f\t%0.7f\t%0.7f\t%0.7f\t%0.7f\t%0.7f\t%0.7f\n",j,Vx[j],Vy[j],Yp[j],Ypp[j],Yppp[j],Yp4[j],Yp5[j]);	
+			}
+			
+			break;
+		case 6:
+			printf("\n\tIter.\t    x\t        y\t          y'\t        y''\t         y'''\t         y(4)\t        y(5)\t          y(6)\t\n");
+			
+			for(aux=0; aux<=105; aux++)
+			{	
+				printf("%c",205);
+			}
+			
+			for(j=1; j<=n; j++){
+			printf("\n\t%i\t%0.7f\t%0.7f\t%0.7f\t%0.7f\t%0.7f\t%0.7f\t%0.7f\t%0.7f\n",j,Vx[j],Vy[j],Yp[j],Ypp[j],Yppp[j],Yp4[j],Yp5[j],Yp6[j]);	
+			}
+			break;	
+	}	
+	
+	for(aux=0; aux<=105; aux++)
+	{	
+		printf("%c",205);
+	}
+	
+	printf(ANSI_COLOR_RED"\n\n\n\t\tIngresa 'A' para volver a ingresar valores o cualquier tecla para salir del programa:  \n"ANSI_COLOR_GREEN);
+	scanf("%s",&op);
+	switch (op)
+	{
+		case ('a'):
+		case ('A'):
+			system("cls");
+			goto again;
+			break;
+		default:
+			system("cls");
+			logo();
+			break;
+	}	
+	
+}
+void iraxy(int x, int y)
+{
+	COORD coord;
+	coord.X=x;
+	coord.Y=y;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
+}
+//ESTE PROCEDIMIENTO ES EL TITULO DEL PROGRAMA SOLO ES ESTETICO
+void titulo()
+{
+	int aux;
+	printf(ANSI_COLOR_GREEN"\n\t%c",201);
+	for(aux=0; aux<=105; aux++)
+	{	
+		printf("%c",205);
+	}
+	printf("%c\n",187);
+	
+	printf("\t%c\t\t\t        Programa que resuelve un sistema de ecuaciones  \t\t\t   %c",186,186);
+	printf("\n\t%c          Por el m%ctodo de Diferenciacion e Integracion Numerica (Si el programa se ve mal agrandarlo)    %c",186,130,186);
+	printf("\n\t%c",200);
+	
+	for(aux=0; aux<=105; aux++)
+	{	
+		printf("%c",205);
+	}
+	printf("%c\n",188);	
+}
+
+void logo()
+{
+	int aux=0;
+	for(aux=1; aux<=4; aux++)
+	{
+		if(aux==1)
+		{
+			printf(ANSI_COLOR_RED"");		
+		}
+		
+		if(aux==2)
+		{
+			printf(ANSI_COLOR_RESET"");		
+		}
+		
+		if(aux==3)
+		{
+			printf(ANSI_COLOR_CYAN"");		
+		}
+		
+		if(aux==4)
+		{
+			printf(ANSI_COLOR_GREEN"");		
+		}		
+		Sleep(200);
+		system("cls");
+		printf("\n\n\n\t 	                                               #@@@@@@@@@( @@@@@@@@@@  \n");
+		printf("\t                                                       #@@.               @@@    \n");
+		printf("\t                                                       #@@.               @@@ \n");
+		printf("\t                                                                          @@@ \n");
+		printf("\t                                             @@@@@@@@@@@@@@@@@@@@@@@@     @@@@@@@@@@@@@@ \n");
+		printf("\t                                             @@@                  &@@                @@@ \n");
+		printf("\t                                             @@@                  &@@                @@@\n");
+		printf("\t                                             @@@                  &@@                @@@ \n");
+		printf("\t                                             @@@                  &@@                @@@\n");
+		printf("\t                                                       #@@@&      &@@                   \n");
+		printf("\t                                             @@@       #@@@@       @@@               @@@ \n");
+		printf("\t                                             @@@       #@@@@@       @@@              @@@\n");
+		printf("\t                                             @@@       %@@.@@@       @@@             @@@  \n");
+		printf("\t                                             @@@       %@@.@@@        @@@            @@@   \n");
+		printf("\t                                             @@@@@@@@@@@@@. @@@@@@@@@@@@@ @@@@@@@@@@@@@@\n");
+		printf("\t                                                       .,,                @@@   \n");
+		printf("\t                                                       #@@.               @@@ \n");
+		printf("\t                                                       #@@.               @@@\n");
+		printf("\t                                                       #@@@@@@@@@( @@@@@@@@@@ \n");
+		
+		printf("\n\n\n\t            @@@@@@@@@@   @@@@@@@@@    @@@@@@@@   @@@@@  @@@@@@@@@  .@@@@@ @@@@@@@@@@    @@@@    @@@@@@@@@@ @@@@@  @@@@@  @ \n");
+		printf("\t            @@@@@@@@@@   @@@@@@@@@%   @@@@@@@@@ @@@@@@  @@@@@@@@@# @@@@@@ @@@@@      @@@@@@@@@@ @@@@______ @@@@@  @@@@@@ @ \n");
+		printf("\t            @@@@@ @@@@@  @@@@@%@@@@   @@@@@@@@@@@&@@@@  @@@@@&@@@@@@@@@@@     @@@@@@ @@@@@@@@@@ @@@@****** @@@@@  @@ @@@@@ \n");
+		printf("\t            @@@@@  @@@@  @@@@@ @@@@@  @@@@@ @@@@@ @@@@  @@@@@ @@@@@ @@@@@ @@@@@@@@@@    @@@@    @@@@@@@@@@ @@@@@  @@  @@@@ \n"); 
+		printf(ANSI_COLOR_RED"\n\n\t\t\t\t\t   El programa se cerrara en unos segundos, ADIOS!!!\n\n\n\n\n\n\n\n\n\n\n\n\n");  
+	}                                          
+                                                                                                                                     
+}
